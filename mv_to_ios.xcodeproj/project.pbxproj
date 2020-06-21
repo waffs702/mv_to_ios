@@ -13,6 +13,8 @@
 		63796AFD249EDA5A007DEBAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63796AFB249EDA5A007DEBAC /* Main.storyboard */; };
 		63796AFF249EDA5C007DEBAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63796AFE249EDA5C007DEBAC /* Assets.xcassets */; };
 		63796B02249EDA5C007DEBAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63796B00249EDA5C007DEBAC /* LaunchScreen.storyboard */; };
+		637DAD34249F1E11006BC617 /* MVCustomSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637DAD33249F1E11006BC617 /* MVCustomSchemeHandler.swift */; };
+		63B25758249F327300D43FE4 /* htmlSource in Resources */ = {isa = PBXBuildFile; fileRef = 63B25753249F27AA00D43FE4 /* htmlSource */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		63796AFE249EDA5C007DEBAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63796B01249EDA5C007DEBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63796B03249EDA5C007DEBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		637DAD33249F1E11006BC617 /* MVCustomSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCustomSchemeHandler.swift; sourceTree = "<group>"; };
+		63B25753249F27AA00D43FE4 /* htmlSource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = htmlSource; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +44,7 @@
 		63796AE9249EDA5A007DEBAC = {
 			isa = PBXGroup;
 			children = (
+				63B25753249F27AA00D43FE4 /* htmlSource */,
 				63796AF4249EDA5A007DEBAC /* mv_to_ios */,
 				63796AF3249EDA5A007DEBAC /* Products */,
 			);
@@ -63,6 +68,7 @@
 				63796AFE249EDA5C007DEBAC /* Assets.xcassets */,
 				63796B00249EDA5C007DEBAC /* LaunchScreen.storyboard */,
 				63796B03249EDA5C007DEBAC /* Info.plist */,
+				637DAD33249F1E11006BC617 /* MVCustomSchemeHandler.swift */,
 			);
 			path = mv_to_ios;
 			sourceTree = "<group>";
@@ -125,6 +131,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B25758249F327300D43FE4 /* htmlSource in Resources */,
 				63796B02249EDA5C007DEBAC /* LaunchScreen.storyboard in Resources */,
 				63796AFF249EDA5C007DEBAC /* Assets.xcassets in Resources */,
 				63796AFD249EDA5A007DEBAC /* Main.storyboard in Resources */,
@@ -141,6 +148,7 @@
 				63796AFA249EDA5A007DEBAC /* ViewController.swift in Sources */,
 				63796AF6249EDA5A007DEBAC /* AppDelegate.swift in Sources */,
 				63796AF8249EDA5A007DEBAC /* SceneDelegate.swift in Sources */,
+				637DAD34249F1E11006BC617 /* MVCustomSchemeHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +224,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +278,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -284,14 +292,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = mv_to_ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "dev.mv-to-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "example.mv-to-mobile-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -301,14 +312,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = mv_to_ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "dev.mv-to-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "example.mv-to-mobile-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
