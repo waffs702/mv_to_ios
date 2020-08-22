@@ -31,9 +31,12 @@ class MVCustomSchemeHandler: NSObject, WKURLSchemeHandler {
         do {
             let data = try Data(contentsOf: bundleUrl)
             let mineType = getMineType(ext: ext)
-            let response = URLResponse(url: url, mimeType: mineType, expectedContentLength: data.count, textEncodingName: "UTF-8")
+            let commonHeaders: [String: String] = [
+                "Content-Type": "\(mineType); charset=utf-8"
+            ]
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: commonHeaders)
             
-            urlSchemeTask.didReceive(response)
+            urlSchemeTask.didReceive(response!)
             urlSchemeTask.didReceive(data)
             urlSchemeTask.didFinish()
         } catch {
@@ -57,6 +60,9 @@ class MVCustomSchemeHandler: NSObject, WKURLSchemeHandler {
         if (ext == "otf" || ext == "OTF") {
             return "font/otf"
         }
+        if (ext == "woff" || ext == "WOFF") {
+            return "font/woff"
+        }
         if (ext == "js" || ext == "JS") {
             return "text/javascript"
         }
@@ -75,8 +81,11 @@ class MVCustomSchemeHandler: NSObject, WKURLSchemeHandler {
         if (ext == "m4a" || ext == "M4A") {
             return "audio/m4a"
         }
-        if (ext == "oga" || ext == "OGA") {
+        if (ext == "oga" || ext == "OGA" || ext == "ogg" || ext == "OGG") {
             return "audio/ogg"
+        }
+        if (ext == "wasm" || ext == "WASM") {
+            return "application/wasm"
         }
         return ""
     }

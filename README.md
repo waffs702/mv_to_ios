@@ -3,16 +3,16 @@
 
 
 ## 概要
-* RPGツクールMVで作成されたプロジェクトをiOSアプリ化するためのXcode プロジェクトです。
-* プラグインは不要、RPGツクールMVでデプロイメントしたファイルを所定の場所に配置するだけです。
-* iOS側でWKWebViewを表示し、RPGツクールMVで出力されたhtml/javascriptを読み込みます。
+* RPGツクールMV/RPGツクールMZで作成されたプロジェクトをiOSアプリ化するためのXcode プロジェクトです。
+* プラグインは不要、RPGツクールMV(MZ)でデプロイメントしたファイルを所定の場所に配置するだけです。
+* iOS側でWKWebViewを表示し、RPGツクールMV(MZ)で出力されたhtml/javascriptを読み込みます。
 * ローカル(`file://`)で実行される `XMLHttpRequest`等のCORSを回避するために、[WKURLSchemeHandler](https://developer.apple.com/documentation/webkit/wkurlschemehandler)を使用しています。
 
 
 
 ## 必要なもの
 
-* [RPGツクールMV](http://tkool.jp/mv/)
+* [RPGツクールMV](https://tkool.jp/mv/)(または、[RPGツクールMZ](https://tkool.jp/mz/))
 * [Xcode](https://apps.apple.com/jp/app/xcode/id497799835?mt=12)
 * iOS13以上
 
@@ -20,9 +20,14 @@
 
 ## 動作確認
 
-- Xcode 11.5
-- RPGツクールMV 1.6.2
-- iOS 13.5.1
+- RPGツクールMV
+  - Xcode 11.5
+  - RPGツクールMV 1.6.2
+  - iOS 13.5.1
+- RPGツクールMZ
+  - Xcode 11.6
+  - RPGツクールMZ 1.0.1
+  - iOS 13.5.1
 
 
 ## 使い方
@@ -34,6 +39,10 @@
 3. RPGツクールMVプロジェクトをAndroid/iOS用にデプロイメントします。
 
 ![ss1](doc/ss1.jpg)
+
+​	RPGツクールMZの場合は、ウェブブラウザようにデプロイメントします。
+
+​	![ss5](doc/ss5.jpg)
 
 4. デプロイメントされたwwwフォルダ配下のファイルを、mv_to_iosの`htmlSource`フォルダ配下に配置します。
 

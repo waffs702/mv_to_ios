@@ -29,14 +29,14 @@ class ViewController: UIViewController {
     func getWebviewFrame() -> CGRect {
         let screenWidth:CGFloat = view.frame.size.width
         let screenHeight:CGFloat = view.frame.size.height
-        let window = UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
-            .first?.windows
-            .filter({$0.isKeyWindow}).first
-        let topPadding = window!.safeAreaInsets.top
-        let bottomPadding = window!.safeAreaInsets.bottom
+        var window = UIWindow()
+        for win in UIApplication.shared.windows {
+            if win.isKeyWindow {
+                window = win
+            }
+        }
+        let topPadding = window.safeAreaInsets.top
+        let bottomPadding = window.safeAreaInsets.bottom
         
         let rect = CGRect(x: 0, y: topPadding * -1, width: screenWidth, height: screenHeight + topPadding - bottomPadding)
         
