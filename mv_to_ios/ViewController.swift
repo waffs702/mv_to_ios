@@ -12,6 +12,7 @@ import WebKit
 class ViewController: UIViewController {
     
     private var webView: WKWebView!
+    private var scriptHandler: ScriptHandler!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,12 @@ class ViewController: UIViewController {
     func createWebview() {
         let config = WKWebViewConfiguration()
         config.setURLSchemeHandler(MVCustomSchemeHandler(), forURLScheme: "rpgmv")
+        
+        // scriptHandler
+        scriptHandler = ScriptHandler()
+        scriptHandler.setWebView(_webView: self.webView)
+        config.userContentController = scriptHandler.setUserContentController()
+        
         self.webView = WKWebView(frame: getWebviewFrame(), configuration: config)
         self.view.addSubview(self.webView)
         self.webView.translatesAutoresizingMaskIntoConstraints = false

@@ -72,9 +72,6 @@ class MVCustomSchemeHandler: NSObject, WKURLSchemeHandler {
         if (ext == "png" || ext == "PNG") {
             return "image/png"
         }
-        if (ext == "png" || ext == "PNG") {
-            return "image/png"
-        }
         if (ext == "jpg" || ext == "JPG" || ext == "jpeg" || ext == "JPEG") {
             return "image/jpeg"
         }
@@ -87,6 +84,9 @@ class MVCustomSchemeHandler: NSObject, WKURLSchemeHandler {
         if (ext == "wasm" || ext == "WASM") {
             return "application/wasm"
         }
-        return ""
+        if (ext == "txt" || ext == "TXT") {
+            return "text/plain"
+        }
+        return "application/octet-stream"
     }
 }
