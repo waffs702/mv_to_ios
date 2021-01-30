@@ -50,13 +50,13 @@ class ViewController: UIViewController {
         
         // scriptHandler
         scriptHandler = ScriptHandler()
-        scriptHandler.setWebView(_webView: self.webView)
         config.userContentController = scriptHandler.setUserContentController()
         
         self.webView = WKWebView(frame: getWebviewFrame(), configuration: config)
         self.view.addSubview(self.webView)
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         self.webView.scrollView.bounces = false
+        scriptHandler.setWebView(_webView: self.webView)
     }
     
 }
