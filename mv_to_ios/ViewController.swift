@@ -16,13 +16,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("viewDidLoad")
         // Do any additional setup after loading the view.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        
         self.createWebview()
         let url = URL(string: "rpgmv:///index.html")!
         self.webView.load(URLRequest(url:url))
+        
+        Advertisement.shared.loadRewardedAd(onLoaded: nil, onFailed: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("viewDidAppear")
     }
         
     //MARK: - WebView
@@ -50,13 +55,14 @@ class ViewController: UIViewController {
         
         // scriptHandler
         scriptHandler = ScriptHandler()
-        scriptHandler.setWebView(_webView: self.webView)
         config.userContentController = scriptHandler.setUserContentController()
         
         self.webView = WKWebView(frame: getWebviewFrame(), configuration: config)
         self.view.addSubview(self.webView)
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         self.webView.scrollView.bounces = false
+        scriptHandler.setWebView(_webView: self.webView)
+        scriptHandler.setViewController(_viewController: self)
     }
     
 }
