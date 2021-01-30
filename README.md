@@ -13,6 +13,7 @@
 
 * [RPGツクールMV](https://tkool.jp/mv/)(または、[RPGツクールMZ](https://tkool.jp/mz/))
 * [Xcode](https://apps.apple.com/jp/app/xcode/id497799835?mt=12)
+* [CocoaPods](https://guides.cocoapods.org/using/getting-started)
 * iOS13以上
 
 
@@ -27,6 +28,7 @@
   - Xcode 11.6
   - RPGツクールMZ 1.0.1
   - iOS 13.5.1
+  - CocoaPods 1.10.1
 
 
 ## 使い方
@@ -38,25 +40,37 @@
 
 3. RPGツクールMVプロジェクトをAndroid/iOS用にデプロイメントします。
 
-![ss1](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss1.jpg)
+    ![ss1](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss1.jpg)
 
-​	RPGツクールMZの場合は、ウェブブラウザようにデプロイメントします。
+    - RPGツクールMZの場合は、ウェブブラウザでデプロイメントします。
 
-​	![ss5](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss5.jpg)
+    ![ss5](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss5.jpg)
 
 4. デプロイメントされたwwwフォルダ配下のファイルを、mv_to_iosの`htmlSource`フォルダ配下に配置します。
 
-![ss2](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss2.jpg)
+    ![ss2](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss2.jpg)
 
-5. Xcodeを起動します。
+5. ターミナルを起動して、mv_to_iosのフォルダまで移動します。その後、`CocoaPods`のインストールコマンドを実行します。
 
-6. 左側ツリーから、`mv_to_ios` をクリック、TARGETSの`mv_to_ios` をクリック、`Signing & Capabilities` をクリック、TeamがNoneとなっているので適切なDeveloper Accountを選択します。（Apple Developer Programへの登録が必要です。/iOSシミュレータで実行する場合はこの操作は不要です。）
+    - この手順は、広告機能などが無いバージョンでは不要です。
+    ```
+    $ cd /mv_to_ios  # mv_to_iosのフォルダまで移動、パスは適宜置き換えてください
+    $ pod install
+    ```
 
-![ss3](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss3.jpg)
+6. Xcodeを起動します。
 
-7. PCにiOS端末を接続し、`再生ボタン`アイコンをクリックすると、iOSにアプリがインストールされデバッグモードで起動します。
+7. mv_to_iosのXocdeプロジェクトを開く時は、`mv_to_ios.xcworkspace`(白いアイコン)を選択します。広告機能などが無いバージョンでは`mv_to_ios.xcodeproj`(青いアイコン)を選択します。
 
-![ss4](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss4.jpg)
+8. Xcodeの画面上部メニューから、`Product` > `Build`をクリックしてビルドを実行します。
+
+9. 左側ツリーから、`mv_to_ios` をクリック、TARGETSの`mv_to_ios` をクリック、`Signing & Capabilities` をクリック、TeamがNoneとなっているので適切なDeveloper Accountを選択します。（Apple Developer Programへの登録が必要です。/iOSシミュレータで実行する場合はこの操作は不要です。）
+
+    ![ss3](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss3.jpg)
+
+10. PCにiOS端末を接続し、`再生ボタン`アイコンをクリックすると、iOSにアプリがインストールされデバッグモードで起動します。
+
+    ![ss4](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss4.jpg)
 
 
 ## 今後追加予定の機能
