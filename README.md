@@ -34,7 +34,7 @@
 ## 使い方
 
 1. githubよりCloneもしくは[zipをダウンロード](https://github.com/waffs702/mv_to_ios/archive/master.zip)します。
-    - 広告機能などが無いバージョンもあります。こちらから[zipをダウンロード](https://github.com/waffs702/mv_to_ios/archive/vanilla.zip)できます。
+    - 広告機能などが無いバージョンもあります。[こちらから](https://github.com/waffs702/mv_to_ios/archive/vanilla.zip)zipをダウンロードできます。
 
 2. ダウンロードした場合は、zipを解凍します。
 
@@ -42,9 +42,9 @@
 
     ![ss1](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss1.jpg)
 
-    - RPGツクールMZの場合は、ウェブブラウザでデプロイメントします。
+    * RPGツクールMZの場合は、ウェブブラウザ/Android/iOS用にデプロイメントします。
 
-    ![ss5](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss5.jpg)
+    ![ss5](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss12.jpg)
 
 4. デプロイメントされたwwwフォルダ配下のファイルを、mv_to_iosの`htmlSource`フォルダ配下に配置します。
 
@@ -61,6 +61,8 @@
 6. Xcodeを起動します。
 
 7. mv_to_iosのXocdeプロジェクトを開く時は、`mv_to_ios.xcworkspace`(白いアイコン)を選択します。広告機能などが無いバージョンでは`mv_to_ios.xcodeproj`(青いアイコン)を選択します。
+
+    ![ss6](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss6.jpg)
 
 8. Xcodeの画面上部メニューから、`Product` > `Build`をクリックしてビルドを実行します。
 
