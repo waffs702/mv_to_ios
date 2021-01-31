@@ -28,6 +28,7 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
         userContentController.add(self, name: "initAd")
         userContentController.add(self, name: "loadRewardedAd")
         userContentController.add(self, name: "showRewardedAd")
+        userContentController.add(self, name: "shareSNS")
         
         return userContentController
     }
@@ -56,6 +57,10 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
                 loadRewardedAd(callbackKey: callbackKey)
             case "showRewardedAd":
                 showRewardedAd(callbackKey: callbackKey)
+            case "shareSNS":
+                let shareText = params?["t"] as? String ?? ""
+                let shareImageBase64 = params?["i"] as? String ?? ""
+                shareSNS(shareText: shareText, shareImageBase64: shareImageBase64)
             default:
                 print("userContentController", "default")
             }
@@ -85,6 +90,25 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
         } onFailed: {
             self.callbackToJavascript(args: "onFailed", key: callbackKey)
         }
+    }
+    
+    func shareSNS(shareText: String, shareImageBase64: String) {
+        var activityItems: Array<Any> = [shareText]
+        
+        if (shareImageBase64 != "") {
+            let dataDecoded:NSData = NSData(base64Encoded: shareImageBase64, options: NSData.Base64DecodingOptions(rawValue: 0))!
+            let decodedimage:UIImage = UIImage(data: dataDecoded as Data)!
+            activityItems += [decodedimage]
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.airDrop,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact
+        ]
+        self.viewController.present(activityViewController, animated: true, completion: nil)
     }
     
 }
