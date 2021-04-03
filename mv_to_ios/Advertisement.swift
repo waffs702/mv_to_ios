@@ -9,11 +9,11 @@
 import Foundation
 import GoogleMobileAds
 
-class Advertisement: NSObject, GADRewardedAdDelegate {
+class Advertisement: NSObject, GADFullScreenContentDelegate {
     
     public static let shared = Advertisement()
     
-    private var rewarededAd: GADRewardedAd?
+    private var rewardedAd: GADRewardedAd?
     private var isRewarded: Bool = false
     private var isLoading: Bool = false
     private var showRewardedAdOnRewarded: (() -> Void)?
@@ -26,25 +26,43 @@ class Advertisement: NSObject, GADRewardedAdDelegate {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
     }
     
+    //=============================================================================
+    // MARK: RewardedAd
+    //=============================================================================
     func loadRewardedAd(onLoaded: (() -> Void)?, onFailed: (() -> Void)?) {
-        rewarededAd = GADRewardedAd(adUnitID: Constants.adRewardedUnitId)
-        isLoading = true
-        print("loadRewardedAd", "Request Load")
-        rewarededAd?.load(GADRequest()) { error in
+        if (Constants.adRewardedUnitId == "") {
+            return
+        }
+        
+        self.isLoading = true
+        GADRewardedAd.load(withAdUnitID: Constants.adRewardedUnitId, request: GADRequest()
+        ) { (ad, error) in
             self.isLoading = false
             if let error = error {
-                print("loadRewardedAd", "onAdFailedToLoad : ", error)
+                print("loadRewardedAd", "Rewarded ad failed to load with error: \(error.localizedDescription)")
                 onFailed?()
-            } else {
-                print("loadRewardedAd", "onAdLoaded")
-                onLoaded?()
+                return
             }
+            print("loadRewardedAd", "onAdLoaded")
+            self.rewardedAd = ad
+            self.rewardedAd?.fullScreenContentDelegate = self
+            onLoaded?()
         }
     }
     
     func showRewardedAd(viewContorller: UIViewController, onRewarded: (() -> Void)?, onCanceled: (() -> Void)?, onFailed: (() -> Void)?) {
         isRewarded = false
-        if rewarededAd?.isReady != true {
+        if let ad = rewardedAd {
+            self.showRewardedAdOnRewarded = onRewarded
+            self.showRewardedAdOnCanceled = onCanceled
+            self.showRewardedAdOnFailed = onFailed
+            
+            ad.present(fromRootViewController: viewContorller) {
+                let reward = ad.adReward
+                print("showRewardedAd", "Reward received with currency \(reward.amount), amount \(reward.amount.doubleValue)")
+                self.isRewarded = true
+            }
+        } else {
             print("showRewardedAd", "The rewarded ad wasn't ready yet.")
             
             if !isLoading {
@@ -53,24 +71,15 @@ class Advertisement: NSObject, GADRewardedAdDelegate {
             onFailed?()
             return
         }
-        
-        self.showRewardedAdOnRewarded = onRewarded
-        self.showRewardedAdOnCanceled = onCanceled
-        self.showRewardedAdOnFailed = onFailed
-        
-        rewarededAd?.present(fromRootViewController: viewContorller, delegate: self)
     }
     
-    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-        isRewarded = true
-    }
-
-    func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
+    // MARK: GADFullScreenContentDelegate
+    
+    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Rewarded ad presented.")
     }
-
-    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+    
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Rewarded ad dismissed.")
         self.loadRewardedAd(onLoaded: nil, onFailed: nil)
         if isRewarded == true {
@@ -79,9 +88,9 @@ class Advertisement: NSObject, GADRewardedAdDelegate {
             self.showRewardedAdOnCanceled?()
         }
     }
-
-    func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
-        print("Rewarded ad failed to present.")
+    
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("Rewarded ad failed to present with error: \(error.localizedDescription).")
         self.showRewardedAdOnFailed?()
     }
 }
