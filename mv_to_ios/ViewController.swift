@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         self.webView.load(URLRequest(url:url))
         
         Advertisement.shared.loadRewardedAd(onLoaded: nil, onFailed: nil)
+        Advertisement.shared.loadInterstitialAd()
     }
     
     override func viewDidAppear(_ animated: Bool) {

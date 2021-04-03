@@ -28,6 +28,7 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
         userContentController.add(self, name: "initAd")
         userContentController.add(self, name: "loadRewardedAd")
         userContentController.add(self, name: "showRewardedAd")
+        userContentController.add(self, name: "showInterstitialAd")
         userContentController.add(self, name: "shareSNS")
         
         return userContentController
@@ -57,6 +58,8 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
                 loadRewardedAd(callbackKey: callbackKey)
             case "showRewardedAd":
                 showRewardedAd(callbackKey: callbackKey)
+            case "showInterstitialAd":
+                showInterstitialAd(callbackKey: callbackKey)
             case "shareSNS":
                 let shareText = params?["t"] as? String ?? ""
                 let shareImageBase64 = params?["i"] as? String ?? ""
@@ -87,6 +90,14 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
             self.callbackToJavascript(args: "onRewarded", key: callbackKey)
         } onCanceled: {
             self.callbackToJavascript(args: "onCanceled", key: callbackKey)
+        } onFailed: {
+            self.callbackToJavascript(args: "onFailed", key: callbackKey)
+        }
+    }
+    
+    func showInterstitialAd(callbackKey: String) {
+        Advertisement.shared.showInterstitialAd(viewController: self.viewController) {
+            self.callbackToJavascript(args: "onSucceeded", key: callbackKey)
         } onFailed: {
             self.callbackToJavascript(args: "onFailed", key: callbackKey)
         }

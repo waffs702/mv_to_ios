@@ -20,6 +20,19 @@ class Advertisement: NSObject, GADFullScreenContentDelegate {
     private var showRewardedAdOnCanceled: (() -> Void)?
     private var showRewardedAdOnFailed: (() -> Void)?
     
+    private enum AdType: NSInteger {
+        case unknown
+        case rewardedAd
+        case interstitialAd
+    }
+    private var adType = AdType.unknown
+    
+    private var interstitial: GADInterstitialAd?
+    private var isInterstitialLoading: Bool = false
+    private var isSucceededInterstitialAd: Bool = false
+    private var showInterstitialAdOnSucceeded: (() -> Void)?
+    private var showInterstitialAdOnFailed: (() -> Void)?
+    
     override private init() {}
     
     static func initAd() {
@@ -52,6 +65,8 @@ class Advertisement: NSObject, GADFullScreenContentDelegate {
     
     func showRewardedAd(viewContorller: UIViewController, onRewarded: (() -> Void)?, onCanceled: (() -> Void)?, onFailed: (() -> Void)?) {
         isRewarded = false
+        adType = .rewardedAd
+        
         if let ad = rewardedAd {
             self.showRewardedAdOnRewarded = onRewarded
             self.showRewardedAdOnCanceled = onCanceled
@@ -76,21 +91,87 @@ class Advertisement: NSObject, GADFullScreenContentDelegate {
     // MARK: GADFullScreenContentDelegate
     
     func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        print("Rewarded ad presented.")
-    }
-    
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        print("Rewarded ad dismissed.")
-        self.loadRewardedAd(onLoaded: nil, onFailed: nil)
-        if isRewarded == true {
-            self.showRewardedAdOnRewarded?()
-        } else {
-            self.showRewardedAdOnCanceled?()
+        print("adDidPresentFullScreenContent", adType)
+        if adType == .interstitialAd {
+            self.isSucceededInterstitialAd = true
         }
     }
     
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        print("Rewarded ad failed to present with error: \(error.localizedDescription).")
-        self.showRewardedAdOnFailed?()
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("adDidDismissFullScreenContent", adType)
+        if adType == .rewardedAd {
+            self.loadRewardedAd(onLoaded: nil, onFailed: nil)
+            if isRewarded == true {
+                self.showRewardedAdOnRewarded?()
+            } else {
+                self.showRewardedAdOnCanceled?()
+            }
+            return
+        }
+        if adType == .interstitialAd {
+            self.loadInterstitialAd()
+            if isSucceededInterstitialAd {
+                self.showInterstitialAdOnSucceeded?()
+            } else {
+                self.showInterstitialAdOnFailed?()
+            }
+        }
+        
     }
+    
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("didFailToPresentFullScreenContentWithError","[\(adType)]:\(error.localizedDescription).")
+        if adType == .rewardedAd {
+            self.showRewardedAdOnFailed?()
+            return
+        }
+        if adType == .interstitialAd {
+            self.showInterstitialAdOnFailed?()
+        }
+    }
+    
+    //=============================================================================
+    // MARK: InterstitialAd
+    //=============================================================================
+    func loadInterstitialAd() {
+        if (Constants.adInterstitialId == "") {
+            return
+        }
+        
+        isInterstitialLoading = true
+        GADInterstitialAd.load(withAdUnitID: Constants.adInterstitialId, request: GADRequest())
+        { (ad, error) in
+            self.isInterstitialLoading = false
+            if let error = error {
+                print("loadInterstitialAd", "Failed to load interstitial ad with error: \(error.localizedDescription)")
+                return
+            }
+            print("loadInterstitialAd", "onAdLoaded")
+            self.interstitial = ad
+            self.interstitial?.fullScreenContentDelegate = self
+        }
+        
+        print("loadInterstitialAd", "Request Load")
+    }
+    
+    func showInterstitialAd(viewController: UIViewController, onSucceeded: (() -> Void)?, onFailed: (() -> Void)?) {
+        isSucceededInterstitialAd = false
+        adType = .interstitialAd
+        
+        if let ad = interstitial {
+            self.showInterstitialAdOnSucceeded = onSucceeded
+            self.showInterstitialAdOnFailed = onFailed
+            
+            ad.present(fromRootViewController: viewController)
+        } else {
+            print("showInterstitialAd", "The rewarded ad wasn't ready yet.")
+            
+            if !isLoading {
+                self.loadInterstitialAd()
+            }
+            onFailed?()
+            return
+        }
+    }
+    
 }

@@ -10,4 +10,5 @@ import Foundation
 
 struct Constants {
     static let adRewardedUnitId = "ca-app-pub-3940256099942544/1712485313"
+    static let adInterstitialId = "ca-app-pub-3940256099942544/4411468910"
 }
