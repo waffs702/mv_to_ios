@@ -39,6 +39,7 @@
 2. ダウンロードした場合は、zipを解凍します。
 
 3. RPGツクールMVプロジェクトをAndroid/iOS用にデプロイメントします。
+    * **Android/iOS用にデプロイメントする場合、音声ファイルの`.ogg`ファイルがデプロイメントされるフォルダに含まれません。`.ogg`ファイルを使用する場合は、ウェブブラウザ向けでデプロイメントしてください。**
 
     ![ss1](https://raw.githubusercontent.com/wiki/waffs702/mv_to_ios/images/ss1.jpg)
 
