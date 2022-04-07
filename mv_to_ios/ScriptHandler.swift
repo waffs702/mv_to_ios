@@ -30,6 +30,7 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
         userContentController.add(self, name: "showRewardedAd")
         userContentController.add(self, name: "showInterstitialAd")
         userContentController.add(self, name: "shareSNS")
+        userContentController.add(self, name: "callBrowser")
         
         return userContentController
     }
@@ -64,6 +65,9 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
                 let shareText = params?["t"] as? String ?? ""
                 let shareImageBase64 = params?["i"] as? String ?? ""
                 shareSNS(shareText: shareText, shareImageBase64: shareImageBase64)
+            case "callBrowser":
+                let url = params?["url"] as? String ?? ""
+                callBrowser(url: url)
             default:
                 print("userContentController", "default")
             }
@@ -122,6 +126,13 @@ class ScriptHandler: NSObject, WKScriptMessageHandler {
         self.viewController.present(activityViewController, animated: true, completion: nil)
     }
     
+    func callBrowser(url: String) {
+        if let _url = URL(string: url) {
+            if (UIApplication.shared.canOpenURL(_url)) {
+                UIApplication.shared.open(_url)
+            }
+        }
+    }
 }
 
 
