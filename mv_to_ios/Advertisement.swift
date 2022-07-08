@@ -90,8 +90,19 @@ class Advertisement: NSObject, GADFullScreenContentDelegate {
     
     // MARK: GADFullScreenContentDelegate
     
-    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        print("adDidPresentFullScreenContent", adType)
+    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("didFailToPresentFullScreenContentWithError","[\(adType)]:\(error.localizedDescription).")
+        if adType == .rewardedAd {
+            self.showRewardedAdOnFailed?()
+            return
+        }
+        if adType == .interstitialAd {
+            self.showInterstitialAdOnFailed?()
+        }
+    }
+    
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("adWillPresentFullScreenContent", adType)
         if adType == .interstitialAd {
             self.isSucceededInterstitialAd = true
         }
@@ -115,18 +126,6 @@ class Advertisement: NSObject, GADFullScreenContentDelegate {
             } else {
                 self.showInterstitialAdOnFailed?()
             }
-        }
-        
-    }
-    
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        print("didFailToPresentFullScreenContentWithError","[\(adType)]:\(error.localizedDescription).")
-        if adType == .rewardedAd {
-            self.showRewardedAdOnFailed?()
-            return
-        }
-        if adType == .interstitialAd {
-            self.showInterstitialAdOnFailed?()
         }
     }
     
