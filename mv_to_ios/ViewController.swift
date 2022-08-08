@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     private var scriptHandler: ScriptHandler!
     private var bannerView: GADBannerView!
     private var isLoadedBanner = false
+    private var isLoadedWebView = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +28,15 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         print("viewDidAppear")
+        if (isLoadedWebView) {
+            return
+        }
         
         createBannerView()
         createWebview()
         let url = URL(string: "rpgmv:///index.html")!
         webView.load(URLRequest(url:url))
+        isLoadedWebView = true
         
         checkTrackingAuthorization()
         
